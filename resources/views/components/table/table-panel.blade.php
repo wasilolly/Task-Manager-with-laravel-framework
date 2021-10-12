@@ -1,6 +1,6 @@
 @props(['tableName', 'paginatorAttr'])
 <x-layout>
-    <h1 class="text-3xl text-black pb-6">{{$tableName}}</h1>
+    <x-section-header sectionName="{{$tableName}}"/>
     <div class="w-full mt-4">
         <p class="text-xl pb-3 flex items-center">
             <i class="fas fa-list mr-3"></i> <a href="{{ route('task.create') }}">New Task</a>

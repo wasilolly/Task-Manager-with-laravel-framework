@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Task;
 
 class UserController extends Controller
 {
@@ -14,6 +15,14 @@ class UserController extends Controller
      */
     public function index()
     {
+        $user = User::first();
+        $task = Task::first();
+        $due = Task::where('taskcreator_id', $user->id)
+                             ->where('completed', 0)  
+                             ->orWhere('assigneduser_id', $user->id) 
+                             ->get();
+       // $tasksAssigned = Task::where('assigneduser_id', $this->id);
+        //ddd($due);
         return view('user.index',[
             'users' => User::latest()->paginate(10)
         ]);

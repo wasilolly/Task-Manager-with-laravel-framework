@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Task;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class TaskController extends Controller
@@ -14,8 +15,8 @@ class TaskController extends Controller
      */
     public function index()
     {
-        return view('task.index',[
-            'tasks' => Task::latest()->paginate(10)
+        return view('task.index', [
+            'tasks' => Task::latest()->paginate(10),
         ]);
     }
 
@@ -26,7 +27,9 @@ class TaskController extends Controller
      */
     public function create()
     {
-        //
+        return view('task.create',[
+            'users' => User::latest()->get()
+        ]);
     }
 
     /**
@@ -37,7 +40,14 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        request()->Task::create([
+            'taskcreator_id' => auth()->user()->getAuthIdentifier(),
+            'assigneduser_id' => 'assigneduser_id',
+            'description' => 'body',
+            'title' => 'title',
+            'completed' => 0,
+            'due' => 'due'
+        ]);
     }
 
     /**
