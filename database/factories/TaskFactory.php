@@ -23,6 +23,7 @@ class TaskFactory extends Factory
     {
         return [
             'title' => $this->faker->sentence(),
+            'slug' => $this->faker->slug(),
             'description' => $this->faker->paragraph(5),
             'due' => $this->faker->date(),
             'completed' => false

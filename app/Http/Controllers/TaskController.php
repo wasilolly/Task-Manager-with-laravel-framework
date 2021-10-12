@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Task;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
+use Illuminate\Support\Str;
+
 
 class TaskController extends Controller
 {
@@ -40,16 +43,20 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
-        request()->Task::create([
-            'taskcreator_id' => auth()->user()->getAuthIdentifier(),
-            'assigneduser_id' => 'assigneduser_id',
-            'description' => 'body',
-            'title' => 'title',
-            'completed' => 0,
-            'due' => 'due'
+        $this->validateTask($request);
+        Task::create([
+                'taskcreator_id' => 1,
+                'assigneduser_id' => $request->assigneduser,
+                'description' => $request->body,
+                'title' => $request->title,
+                'slug' => Str::slug($request->title),
+                'completed' => 0,
+                'due' => $request->due       
         ]);
-    }
 
+        return redirect('/task')->with('success','New task created');
+    }
+   
     /**
      * Display the specified resource.
      *
@@ -58,7 +65,10 @@ class TaskController extends Controller
      */
     public function show($id)
     {
-        //
+       // ddd(Task::find($task->slug));
+        return view('task.show',[
+            'task' => Task::find($id)
+        ]);
     }
 
     /**
@@ -92,6 +102,16 @@ class TaskController extends Controller
      */
     public function destroy($id)
     {
-        //
+
+    }
+
+    public function validateTask(Request $request)
+    {
+        $attributes = $request->validate([
+            'title' => 'required',
+            'due' => 'required',
+            'body' => 'required',
+            'assigneduser' => ['required', Rule::exists('tasks', 'assigneduser_id')]
+        ]);
     }
 }

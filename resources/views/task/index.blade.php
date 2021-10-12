@@ -13,7 +13,9 @@
         @foreach ($tasks as $task)
             <tr class="hover:bg-grey-lighter">
                 <x-table.table-data tdName="{{ date_format($task->created_at, 'd/m/Y') }}" />
-                <x-table.table-data tdName="{{ $task->title }}" />
+                <td class="py-4 px-6 border-b border-grey-light">
+                    <a href="/task/{{$task->id}}">{{ $task->title }}</a>
+                </td>
                 <x-table.table-data tdName="{{ $task->getTaskCreatorUser()}}" />
                 <x-table.table-data tdName="{{ $task->getAssignedUser()}}" />                
                 <x-table.table-data tdName="{{ $task->due}}" />

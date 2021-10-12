@@ -18,6 +18,7 @@ class CreateTasksTable extends Migration
             $table->foreignId('taskcreator_id');
             $table->foreignId('assigneduser_id');
             $table->string('title');
+            $table->string('slug');
             $table->text('description');
             $table->date('due');
             $table->boolean('completed');

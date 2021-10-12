@@ -9,4 +9,6 @@ class Task extends Model
 {
     use HasFactory, TaskUserManager;
 
+    protected $guarded = [];
+
 }
