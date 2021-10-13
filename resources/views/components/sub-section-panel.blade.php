@@ -2,7 +2,7 @@
 <x-layout>
     <x-section-header sectionName="{{$sectionName}}"/>
     <div class="w-auto mt-4">
-        <div class="bg-white overflow-auto">
+        <div class="bg-white-50 overflow-auto">
            {{$slot}}
           
         </div>

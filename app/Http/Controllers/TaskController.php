@@ -30,7 +30,7 @@ class TaskController extends Controller
      */
     public function create()
     {
-        return view('task.create',[
+        return view('task.create', [
             'users' => User::latest()->get()
         ]);
     }
@@ -43,20 +43,17 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validateTask($request);
-        Task::create([
-                'taskcreator_id' => 1,
-                'assigneduser_id' => $request->assigneduser,
-                'description' => $request->body,
-                'title' => $request->title,
-                'slug' => Str::slug($request->title),
-                'completed' => 0,
-                'due' => $request->due       
-        ]);
+        // dd($request->all());
 
-        return redirect('/task')->with('success','New task created');
+        $attributes = $this->validateTask($request);
+        $attributes['taskcreator_id'] = 1;
+        $attributes['completed'] = 0;
+        $attributes['slug'] = Str::slug($request->title);
+        Task::create($attributes);
+
+        return redirect('/task')->with('success', 'New task created');
     }
-   
+
     /**
      * Display the specified resource.
      *
@@ -65,8 +62,7 @@ class TaskController extends Controller
      */
     public function show($id)
     {
-       // ddd(Task::find($task->slug));
-        return view('task.show',[
+        return view('task.show', [
             'task' => Task::find($id)
         ]);
     }
@@ -79,7 +75,10 @@ class TaskController extends Controller
      */
     public function edit($id)
     {
-        //
+        return view('task.edit', [
+            'task' => Task::find($id),
+            'users' => User::latest()->get()
+        ]);
     }
 
     /**
@@ -91,7 +90,13 @@ class TaskController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $attributes = $this->validateTask($request);
+        $task =  Task::find($id);
+        $attributes['taskcreator_id'] = 1;
+        $attributes['completed'] = 0;
+        $attributes['slug'] = Str::slug($request->title);
+        $task->update($attributes);
+        return redirect('/task')->with('success', 'Task updated');
     }
 
     /**
@@ -102,7 +107,9 @@ class TaskController extends Controller
      */
     public function destroy($id)
     {
-
+        $task = Task::find($id);
+        $task->delete;
+        return redirect('/task')->with('success', 'Task Deleted');
     }
 
     public function validateTask(Request $request)
@@ -110,8 +117,18 @@ class TaskController extends Controller
         $attributes = $request->validate([
             'title' => 'required',
             'due' => 'required',
-            'body' => 'required',
-            'assigneduser' => ['required', Rule::exists('tasks', 'assigneduser_id')]
+            'description' => 'required',
+            'assigneduser_id' => ['required', Rule::exists('users', 'id')]
         ]);
+
+        return $attributes;
+    }
+
+    public function completed($id){
+       
+        $task = Task::find($id);
+        $task->completed =1;
+        $task->update();
+        return redirect('/task')->with('success', 'Task marked completed');
     }
 }

@@ -7,24 +7,18 @@
         <div class="leading-loose">
             <form class="p-10 bg-white rounded shadow-xl" method="post" action="{{ route('task.store') }}">
                 @csrf
-                <div class="">
-                    <label class="block text-sm text-gray-600" for="title"> Task Title</label>
-                    <input class="w-full px-5 py-1 text-gray-700 bg-gray-200 rounded" id="title" name="title" type="text"
-                        required="" placeholder="Task Title">
-                </div>
+                <x-form.input inputName="title"/>
                 <div class="mt-2">
-                    <label class=" block text-sm text-gray-600" for="body">Task Details</label>
+                    <label class=" block text-sm text-gray-600" for="description">Task Details</label>
                     <textarea class="w-full px-5 py-2 text-gray-700 bg-gray-200 rounded" id="description"
-                        name="body" rows="6" required="" placeholder="Task Details...."></textarea>
+                        name="description" rows="6" placeholder="Task Details...." required>
+                    </textarea>
+                    <x-form.error inputName="description"/>
                 </div>
-                <div class="mt-2">
-                    <label class="block text-sm text-gray-600" for="due">Due Date</label>
-                    <input class="w-full px-5  py-4 text-gray-700 bg-gray-200 rounded" id="due" name="due" type="date"
-                        required="">
-                </div>
+                <x-form.input inputName="due" type="date"/>
                 <div class="mt-2">
                     <label class="block text-sm text-gray-600" for="user">Assign to</label>
-                    <select name="assigneduser" id="assigneduser">
+                    <select name="assigneduser_id" id="assigneduser_id">
                         @if ($users->count())
                             @foreach ($users as $user)
                                 <option value="{{ $user->id }}">{{ $user->name }}</option>
@@ -32,10 +26,7 @@
                         @endif
                     </select>
                 </div>
-                <div class="mt-6">
-                    <button class="px-4 py-1 text-white font-light tracking-wider bg-gray-900 rounded"
-                        type="submit">Submit</button>
-                </div>
+                <x-form.button buttonName="Create" />
             </form>
         </div>
     </div>
