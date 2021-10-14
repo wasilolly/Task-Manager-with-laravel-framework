@@ -10,34 +10,19 @@ use Illuminate\Http\Request;
 class CommentController extends Controller
 {
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create(Task $task)
-    {
-        return view('task.show', [
-            'users' => User::latest()->get(),
-            'task' => Task::find($task->id)->with('comments')
-        ]);
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Task $task)
     {
-        // dd($request->all());
-
-        $attribute = $request->validate([
+        $attributes = $request->validate([
             'body' => 'required'
         ]);
-    
-        Comment::create($attribute);
-
+        $attributes['task_id'] = $task->id;
+        $attributes['user_id'] = 1;
+        Comment::create($attributes);
         return back();
     }
 }
