@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\User;
 use App\Models\Task;
+use Illuminate\Pagination\Paginator;
 
 trait TaskUserManager
 {
@@ -43,6 +44,18 @@ trait TaskUserManager
         return $this->getTasksAssigned()->count();
     }
 
+    public function totalTasks()
+    {
+        return $this->noOfTaskCreated() + $this->noOfTaskAssigned();
+    }
+
+    public function getAllUserTasks()
+    {
+        $alltasks = $this->getTasksCreated()->merge($this->getTasksAssigned());
+        $alltasks->all();
+        return $alltasks;
+    }
+
     public function noOfTaskDue()
     {
         $due = Task::where('taskcreator_id', $this->id)
@@ -56,4 +69,5 @@ trait TaskUserManager
     {
         return $this->noOfTaskAssigned() + $this->noOfTaskCreated() - $this->noOfTaskDue();
     }
+
 }

@@ -29,6 +29,11 @@ Route::post('/logout', [SessionsController::class, 'destroy']);
 Route::patch('/task/{task}/completed', [TaskController::class,'completed']);
 Route::post('/task/{task}/comment', [CommentController::class, 'store']);
 
+Route::get('user/admin/dashboard', [UserController::class, 'adminDashboard'])->name('admin.dashboard');
+Route::get('user/{user}/dashboard', [UserController::class, 'userDashboard'])->name('user.dashboard');
+
+    
+
 Route::resources([
     'task' => TaskController::class,
     'user'=> UserController::class,

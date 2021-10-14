@@ -35,14 +35,18 @@
                 @csrf
                 <header class="flex item-center">
                     <h2 class="ml-3">
-                        Task Quick Updates
+                        Task Comments
                     </h2>
-                </header>
+                </header>              
                 <div>
                     <textarea name="body" class="w-full mt-3 rounded-xl" cols="30" rows="3" placeholder="Quick Updates...."required></textarea>
                     <x-form.error  inputName="body"/>
                 </div>
+                @auth
                 <x-form.button buttonName="post"/>
+                @else
+                <p class="text-bold "><a href="/login" class="underline">Sign in</a>  to post a comment on this Task</p>
+                @endauth
             </form>
         </div>
         <div class="bg-gray-100 border border-gray-200 p-2 rounded-xl w-2/3">

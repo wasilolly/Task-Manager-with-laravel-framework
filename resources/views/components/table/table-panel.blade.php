@@ -10,9 +10,6 @@
                {{$slot}}
             </table>
         </div>
-        <p class="pt-3 text-gray-600">
-            Source: <a class="underline" href="https://tailwindcomponents.com/component/table">https://tailwindcomponents.com/component/table</a>
-        </p>
         <p>{{ $paginatorAttr->links() }}</p>
     </div>
 </x-layout>

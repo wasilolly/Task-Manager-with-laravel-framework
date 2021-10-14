@@ -22,7 +22,5 @@
                 <x-table.table-data tdName="{{ $task->completed }}" />
             </tr>
         @endforeach
-
     </tbody>
-
 </x-table.table-panel>

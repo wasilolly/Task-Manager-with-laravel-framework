@@ -6,6 +6,7 @@ use App\Models\Task;
 use App\Models\User;
 use App\Models\Comment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Str;
 
@@ -47,7 +48,7 @@ class TaskController extends Controller
         // dd($request->all());
 
         $attributes = $this->validateTask($request);
-        $attributes['taskcreator_id'] = 1;
+        $attributes['taskcreator_id'] =  Auth::user()->id;
         $attributes['completed'] = 0;
         $attributes['slug'] = Str::slug($request->title);
         Task::create($attributes);
@@ -93,7 +94,7 @@ class TaskController extends Controller
     {
         $attributes = $this->validateTask($request);
         $task =  Task::find($id);
-        $attributes['taskcreator_id'] = 1;
+        $attributes['taskcreator_id'] = Auth::user()->id;
         $attributes['completed'] = 0;
         $attributes['slug'] = Str::slug($request->title);
         $task->update($attributes);
@@ -125,11 +126,12 @@ class TaskController extends Controller
         return $attributes;
     }
 
-    public function completed($id){
-       
+    public function completed($id)
+    {
         $task = Task::find($id);
-        $task->completed =1;
+        $task->completed = 1;
         $task->update();
         return redirect('/task')->with('success', 'Task marked completed');
     }
+
 }

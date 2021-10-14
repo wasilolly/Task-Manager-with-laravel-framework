@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Comment;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Task;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
+    
     /**
      * Display a listing of the resource.
      *
@@ -28,6 +31,28 @@ class UserController extends Controller
         ]);
     }
 
+    public function adminDashboard()
+    {
+
+        return view('user.admin-dashboard',[
+            'userCount' => User::latest()->count(),
+            'users' => User::latest()->paginate(10),
+            'tasks' => Task::latest()->get(),
+            'taskCompleted' => Task::where('completed', 1)->get()->count(),
+            'taskDue' => Task::where('completed', 0)->get()->count()
+        ]);
+    }
+
+    public function userDashboard(User $user)
+    {
+        return view('user.dashboard',[
+            'user' => $user, 
+            'tasks' =>   Task::where('taskcreator_id', $user->id)
+                            ->orWhere('assigneduser_id', $user->id)
+                            ->paginate(10)
+        ]);
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -45,17 +70,6 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
     {
         //
     }
