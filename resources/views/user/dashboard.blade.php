@@ -1,4 +1,4 @@
-<x-table.table-panel tableName="{{ $user->name }} Tasks" :paginatorAttr="$tasks">
+<x-table.table-panel tableName="{{ ucwords($user->name) }} Tasks" :paginatorAttr="$tasks">
     {{-- summary panel --}}
     <div class="container">
         <x-content-layout contentName="Completed" contents="{{ $user->noOfTaskCompleted() }}" />
@@ -24,7 +24,7 @@
             <tr class="hover:bg-grey-lighter">
                 <x-table.table-data tdName="{{ date_format($task->created_at, 'd/m/Y') }}" />
                 <td class="py-4 px-6 border-b border-grey-light">
-                    <a href="/task/{{ $task->id }}">{{ $task->title }}</a>
+                    <a href="/task/{{ $task->id }}" class="underline">{{ $task->title }}</a>
                 </td>
                 <x-table.table-data tdName="{{ $task->getTaskCreatorUser() }}" />
                 <x-table.table-data tdName="{{ $task->getAssignedUser() }}" />

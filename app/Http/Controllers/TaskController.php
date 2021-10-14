@@ -21,7 +21,7 @@ class TaskController extends Controller
     public function index()
     {
         return view('task.index', [
-            'tasks' => Task::latest()->paginate(10),
+            'tasks' => Task::latest()->filter(['search', 'searchbody'])->paginate(10),
         ]);
     }
 

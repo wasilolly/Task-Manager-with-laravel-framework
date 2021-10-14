@@ -12,13 +12,13 @@ trait TaskUserManager
     public function getAssignedUser()
     {
         $assignedUser = User::find($this->assigneduser_id);
-        return $assignedUser->name;
+        return ucwords($assignedUser->name);
     }
 
     public function getTaskCreatorUser()
     {
         $taskcreator =  User::find($this->taskcreator_id);
-        return $taskcreator->name;
+        return ucwords($taskcreator->name);
     }
 
     public function getTasksCreated()

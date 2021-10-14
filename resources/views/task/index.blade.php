@@ -1,4 +1,15 @@
 <x-table.table-panel tableName="Tasks" :paginatorAttr="$tasks">
+    <div class="container flex items-center">
+        <form method="GET" action="/task">
+            <x-form.input inputName="search" type="date" value="{{ request('search') }}"/>
+            <x-form.button  buttonName="search" class=""/>
+        </form>
+
+        <form method="GET" action="/task" class="mr-5">
+            <x-form.input inputName="searchbody" value="{{ request('search') }}"/>
+            <x-form.button  buttonName="search"/>
+        </form>
+    </div>
     <thead>
         <tr>
             <x-table.table-head thName="Date Created" />
@@ -14,10 +25,10 @@
             <tr class="hover:bg-grey-lighter">
                 <x-table.table-data tdName="{{ date_format($task->created_at, 'd/m/Y') }}" />
                 <td class="py-4 px-6 border-b border-grey-light">
-                    <a href="/task/{{$task->id}}">{{ $task->title }}</a>
+                    <a href="/task/{{$task->id}}" class="underline"> {{ ucwords($task->title) }}</a>
                 </td>
                 <x-table.table-data tdName="{{ $task->getTaskCreatorUser()}}" />
-                <x-table.table-data tdName="{{ $task->getAssignedUser()}}" />                
+                <x-table.table-data tdName="{{ $task->getAssignedUser() }}" />                
                 <x-table.table-data tdName="{{ $task->due}}" />
                 <x-table.table-data tdName="{{ $task->completed }}" />
             </tr>

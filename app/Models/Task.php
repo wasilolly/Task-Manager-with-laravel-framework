@@ -16,4 +16,21 @@ class Task extends Model
         return $this->hasMany(Comment::class);
     }
 
+    public function scopeFilter($query)
+    {
+        if(request('search')){
+            $query
+                ->where('due','like', '%'. request('search') .'%')
+                ->orWhere('created_at','like', '%'. request('search') .'%')
+                ->orWhere('title','like', '%'. request('search') .'%')
+                ->orWhere('description','like', '%'. request('search') .'%');
+        }
+
+        if(request('searchbody')){
+            $query
+                ->orWhere('title','like', '%'. request('searchbody') .'%')
+                ->orWhere('description','like', '%'. request('searchbody') .'%');
+        }
+    }
+
 }

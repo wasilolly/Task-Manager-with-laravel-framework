@@ -31,28 +31,20 @@
             </button>
         </div>
         <nav class="text-white text-base font-semibold pt-3">
-            <a href="{{ route('admin.dashboard') }}" class="flex items-center active-nav-link text-white py-4 pl-6 nav-item">
+            <a href="{{ route('admin.dashboard') }}" class="flex items-center  text-white py-4 pl-6 nav-item">
                 <i class="fas fa-tachometer-alt mr-3"></i>
                 Admin Dashboard
             </a>
             @auth
-            <a href="/user/{{auth()->id()}}/dashboard" class="flex items-center active-nav-link text-white py-4 pl-6 nav-item">
-                <i class="fas fa-tachometer-alt mr-3"></i>
-                 User Dashboard
+            <a href="/user/{{auth()->id()}}/dashboard" class="flex items-center text-white py-4 pl-6 nav-item">
+                <i class="fas fa-user mr-3"></i>
+                 {{ ucwords(auth()->user()->name) }}'s Dashboard
             </a>
             @endauth
            
-            <a href="{{ route('task.index')}}" class="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item">
+            <a href="{{ route('task.index')}}" class="flex items-center text-white hover:opacity-100 py-4 pl-6 nav-item">
                 <i class="fas fa-tasks mr-3"></i>
                 Tasks
-            </a>
-            <a href="{{ route('user.index')}}" class="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item">
-                <i class="fas fa-users mr-3"></i>
-                Users
-            </a>
-            <a href="calendar.html" class="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item">
-                <i class="fas fa-calendar mr-3"></i>
-                Task by Calendar
             </a>
         </nav>
     </aside>
@@ -63,11 +55,11 @@
             <div class=" row w-1/2"> </div>
             @auth
             <div x-data="{ isOpen: false }" class="relative w-1/2 flex justify-end">
-                <button @click="isOpen = !isOpen" class="realtive z-10 w-12 h-12 mr-5 rounded-full overflow-hidden border-4 border-gray-400 hover:border-gray-300 focus:border-gray-300 focus:outline-none">
-                     {{auth()->user()->name}}
+                <button @click="isOpen = !isOpen" class="align-content relative z-10 w-auto h-10 mr-4 font-bold">
+                     {{ ucwords(auth()->user()->name) }}
                 </button>
                 <button x-show="isOpen" @click="isOpen = false" class="h-full w-full fixed inset-0 cursor-default"></button>
-                <div x-show="isOpen" class="absolute w-25 bg-white rounded-lg shadow-lg py-2 mt-16">
+                <div x-show="isOpen" class="absolute w-25 bg-white rounded-lg shadow-lg py-2 mt-6">
                     <a href="#" class="block px-4 py-2 account-link hover:text-white">Account</a>               
                     <form action="/logout" method="post" class="block px-4 py-2 account-link hover:text-white">
                         @csrf
@@ -85,7 +77,7 @@
         </header>
     
         <div class="w-full overflow-x-hidden border-t flex flex-col">
-            <main class="w-full flex-grow p-6">
+            <main class="w-auto flex-grow p-6">
                  {{-- Flash Sesion --}}
                 @if (session('success'))
                 <div class="text-blue font-bold">
@@ -97,7 +89,7 @@
             </main>
     
             <footer class="w-full bg-white text-right p-4">
-                Built by <a target="_blank" href="https://davidgrzyb.com" class="underline">David Grzyb</a>.
+                Built by <a target="_blank" href="#" class="underline">Wassilolly</a>.
             </footer>
         </div>
         

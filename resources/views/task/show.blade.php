@@ -2,19 +2,19 @@
     {{-- show task section --}}
     <section>
         <div class="container">
-            <div class="flex flex-row-reverse space-x-2 space-x-reverse">
+            <div class="flex flex-row-reverse space-x-1 space-x-reverse">
                 <form method="post" action="/task/{{ $task->id }}">
                     @csrf
                     @method('DELETE')
-                    <button class="bg-red-500 h-8 w-12"> Delete</button>
-                </form>
-                <button class="bg-blue-500 h-8 w-12"><a href="/task/{{ $task->id }}/edit"> Edit</a></button>
-                <button class="bg-green-500 h-8 w-12"><a href=""> Notify</a></button>
+                    <button class="bg-red-500 h-10 w-10"><i class="fas fa-trash-alt fa-inverse"></i></button>
+                </form>             
+                <button class="bg-blue-500 h-10 w-10"><a href="/task/{{ $task->id }}/edit"> <i class="fas fa-edit fa-inverse"></i></button>
+                <button class="bg-green-500 h-10 w-10"><a href=""><i class="fas fa-envelope fa-inverse"></i></button>
                 @if (!$task->completed)  
                 <form method="post" action="/task/{{ $task->id }}/completed">
                     @csrf
                     @method('PATCH')
-                    <button class="bg-blue-300 h-8 w-auto">Mark Complete</button>
+                    <button class="bg-blue-300 h-10 w-auto">Mark Complete</button>
                 </form>
                 @else
                 <button class="font-bold bg-blue-300 h-8 w-auto">Task Completed</button>           
