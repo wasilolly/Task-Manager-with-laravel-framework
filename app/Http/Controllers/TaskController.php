@@ -54,7 +54,7 @@ class TaskController extends Controller
 
         $this->notifyUser($task->assigneduser_id);
 
-        return redirect('/task')->with('success', 'Task updated and assigned user notified by email');
+        return redirect('/')->with('success', 'Task updated and assigned user notified by email');
     }
 
     /**

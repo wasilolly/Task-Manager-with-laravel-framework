@@ -4,7 +4,7 @@
         <div class="container">
             {{-- Action section --}}           
             <div class="flex flex-row-reverse space-x-reverse">
-                <form method="post" action="/task/{{ $task->id }}">
+                <form method="post" action="/task/{{ $task->id }}" onsubmit="return confirm('Please confirm task deletion')">
                     @csrf
                     @method('DELETE')
                     <button class="bg-red-500 h-10 w-10 rounded"><i class="fas fa-trash-alt fa-inverse"></i></button>
@@ -12,7 +12,7 @@
                 @if (!$task->completed)  
                     <button class="bg-green-500 h-10 w-10 rounded"><a href="/task/{{ $task->id }}/notify"><i class="fas fa-envelope fa-inverse"></i></a></button>
                     <button class="bg-blue-500 h-10 w-10"><a href="/task/{{ $task->id }}/edit"> <i class="fas fa-edit fa-inverse"></i></a></button> 
-                    <form method="post" action="/task/{{ $task->id }}/completed">
+                    <form method="post" action="/task/{{ $task->id }}/completed" onsubmit="return confirm('Please confirm task completion, notification will be sent')">
                         @csrf
                         @method('PATCH')
                         <button class="bg-blue-300 h-10 w-auto rounded">Mark Complete</button>
@@ -22,6 +22,8 @@
                     <button class="bg-green-500 h-10 w-10 rounded"><a href="/task/{{ $task->id }}/notify"><i class="fas fa-envelope fa-inverse"></i>Notify</a></button>
                 @endif
             </div>
+
+            {{--Task summary section--}}
             <x-content-layout contentName="Date Created" contents="{{ date('d/m/Y', strtotime($task->created_at)) }}" />
             <x-content-layout contentName="Due Date" contents="{{ date('d/m/Y', strtotime($task->due)) }}" />
             <x-content-layout contentName="Created by" contents="{{ $task->getTaskCreatorUser() }}" />
@@ -42,14 +44,14 @@
                     </h2>
                 </header>
                 <div>
-                    <textarea name="body" class="w-full mt-3 rounded-xl" cols="30" rows="3"
+                    <textarea name="body" class="w-full mt-2 rounded" cols="30" rows="3"
                         placeholder="Quick Updates...." required></textarea>
                     <x-form.error inputName="body" />
                 </div>
                 @auth
                     <x-form.button buttonName="post" />
                 @else
-                    <p class="text-bold "><a href="/login" class="underline">Sign in</a> to post a comment on this
+                    <p class="font-bold "><a href="/login" class="underline">Sign in</a> to post a comment on this
                         Task</p>
                 @endauth
             </form>
@@ -64,7 +66,7 @@
                     </div>
                 @endforeach
             @else
-                <p class="text-bold justify self-center">No Comments on this task......</p>
+                <p class="font-bold justify self-center">No Comments on this task......</p>
             @endif
         </div>
     </div>

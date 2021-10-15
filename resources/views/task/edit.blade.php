@@ -29,10 +29,15 @@
                         @endif
                     </select>
                 </div>
+                @auth
                 <div class="mt-6">
                     <button class="px-4 py-1 text-white font-light tracking-wider bg-gray-900 rounded"
                         type="Update">Update</button>
                 </div>
+                @else
+                <p class="font-bold "><a href="/login" class="underline">Sign in</a> to update this
+                    Task</p>
+                @endauth
             </form>
         </div>
     </div>
