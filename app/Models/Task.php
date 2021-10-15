@@ -11,6 +11,11 @@ class Task extends Model
 
     protected $guarded = [];
 
+    public function formatDate()
+    {
+        return $this->getDates() ;
+    }
+
     public function comments()
     {
         return $this->hasMany(Comment::class);

@@ -20,7 +20,7 @@ class CreateTasksTable extends Migration
             $table->string('title');
             $table->string('slug');
             $table->text('description');
-            $table->date('due');
+            $table->dateTime('due');
             $table->boolean('completed');
             $table->timestamps();
         });

@@ -4,12 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\Task;
 use App\Models\User;
-use App\Models\Comment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Str;
-
+use App\Notifications\TaskAssigned;
+use Illuminate\Support\Facades\Notification;
+use App\Notifications\TaskCompleted;
 
 class TaskController extends Controller
 {
@@ -45,15 +46,15 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->all());
-
         $attributes = $this->validateTask($request);
         $attributes['taskcreator_id'] =  Auth::user()->id;
         $attributes['completed'] = 0;
         $attributes['slug'] = Str::slug($request->title);
-        Task::create($attributes);
+        $task = Task::create($attributes);
 
-        return redirect('/task')->with('success', 'New task created');
+        $this->notifyUser($task->assigneduser_id);
+
+        return redirect('/task')->with('success', 'Task updated and assigned user notified by email');
     }
 
     /**
@@ -98,7 +99,10 @@ class TaskController extends Controller
         $attributes['completed'] = 0;
         $attributes['slug'] = Str::slug($request->title);
         $task->update($attributes);
-        return redirect('/task')->with('success', 'Task updated');
+
+        $this->notifyUser($task->assigneduser_id);
+
+        return redirect('/task')->with('success', 'Task updated and assigned user notified by email');
     }
 
     /**
@@ -131,7 +135,20 @@ class TaskController extends Controller
         $task = Task::find($id);
         $task->completed = 1;
         $task->update();
+        $users = User::where('id', $task->assigneduser_id )
+                        ->orWhere('id',$task->taskcreator_id)
+                        ->get();
+        Notification::send($users, new TaskCompleted($task));
         return redirect('/task')->with('success', 'Task marked completed');
+    }
+
+    public function notifyUser($assignedUserId)
+    {
+        $task = Task::where('assigneduser_id',$assignedUserId)->first();
+        $user = User::where('id', $assignedUserId)->first();
+        Notification::send($user, new TaskAssigned($task));
+
+        return back()->with('success', 'Task notification email has been sent to the assigned user');
     }
 
 }

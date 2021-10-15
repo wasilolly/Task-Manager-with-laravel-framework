@@ -26,7 +26,12 @@
                         @endif
                     </select>
                 </div>
+                @auth
                 <x-form.button buttonName="Create" />
+                @else
+                <p class="text-bold "><a href="/login" class="underline">Sign in</a> to create a
+                    Task</p>                
+                @endauth
             </form>
         </div>
     </div>

@@ -25,7 +25,7 @@ class TaskFactory extends Factory
             'title' => $this->faker->sentence(),
             'slug' => $this->faker->slug(),
             'description' => $this->faker->paragraph(5),
-            'due' => $this->faker->date(),
+            'due' => $this->faker->dateTimeBetween('now','1 year'),
             'completed' => false
         ];
     }
