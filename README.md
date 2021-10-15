@@ -6,11 +6,11 @@
 <li>Email notification to users after task creation and completion</li>
  </ul>
  
-<div class="snippet-clipboard-content position-relative overflow-auto" data-snippet-clipboard-copy-content="git clone https://github.com/wasilolly/TaskManagement.git 
+<div class="snippet-clipboard-content position-relative overflow-auto" data-snippet-clipboard-copy-content="git clone https://github.com/wasilolly/Task-Manager-with-laravel-framework.git 
 composer install
 cp .env.example .env
 ">
-<pre><code>git clone git clone https://github.com/wasilolly/TaskManagement.git 
+<pre><code>git clone git clone https://github.com/wasilolly/Task-Manager-with-laravel-framework.git
 composer install
 cp .env.example .env
 </code></pre>
