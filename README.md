@@ -4,13 +4,14 @@
     <li>CRUD resources on Task</li>
 <li>Admin Dashboard</li>
 <li>Email notification to users after task creation and completion</li>
+    <li>Admin dashboard to summarize actions</li>
  </ul>
  
 <div class="snippet-clipboard-content position-relative overflow-auto" data-snippet-clipboard-copy-content="git clone https://github.com/wasilolly/Task-Manager-with-laravel-framework.git 
 composer install
 cp .env.example .env
 ">
-<pre><code>git clone git clone https://github.com/wasilolly/Task-Manager-with-laravel-framework.git
+<pre><code>git clone https://github.com/wasilolly/Task-Manager-with-laravel-framework.git
 composer install
 cp .env.example .env
 </code></pre>
