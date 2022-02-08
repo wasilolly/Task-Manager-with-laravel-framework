@@ -24,20 +24,21 @@ Route::get('/register', [SessionsController::class, 'create']);
 Route::post('/register', [SessionsController::class, 'store'])->name('sessions.store');
 Route::get('/login', [SessionsController::class, 'createLogin']);
 Route::post('/login', [SessionsController::class, 'login'])->name('sessions.login');
-Route::post('/logout', [SessionsController::class, 'destroy']);
-
-Route::patch('/task/{task}/completed', [TaskController::class,'completed']);
-Route::post('/task/{task}/comment', [CommentController::class, 'store']);
-Route::get('/task/{task}/notify', [TaskController::class, 'notifyUser']);
-
-
-Route::get('user/admin/dashboard', [UserController::class, 'adminDashboard'])->name('admin.dashboard');
-Route::get('user/{user}/dashboard', [UserController::class, 'userDashboard'])->name('user.dashboard');
-
-    
 
 Route::resources([
     'task' => TaskController::class,
-    'user'=> UserController::class,
 ]);
+
+Route::middleware(['auth'])->group(function () {
+    Route::post('/logout', [SessionsController::class, 'destroy']);
+    Route::patch('/task/{task}/completed', [TaskController::class,'completed']);
+    Route::post('/task/{task}/comment', [CommentController::class, 'store']);
+    Route::get('/task/{task}/notify', [TaskController::class, 'notifyUser']);
+});
+
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('user/{user}/dashboard', [UserController::class, 'userDashboard'])->name('user.dashboard');  
+    Route::get('user/dashboard/admin', [UserController::class, 'adminDashboard'])->name('admin.dashboard');
+});
+
 

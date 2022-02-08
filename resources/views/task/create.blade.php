@@ -15,7 +15,7 @@
                     </textarea>
                     <x-form.error inputName="description"/>
                 </div>
-                <x-form.input inputName="due" type="date"/>
+                <x-form.input inputName="due" type="date" name="minDate" min="2022-01-01"/>
                 <div class="mt-2">
                     <label class="block text-sm text-gray-600" for="user">Assign to</label>
                     <select name="assigneduser_id" id="assigneduser_id">

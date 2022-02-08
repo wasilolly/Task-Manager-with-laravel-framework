@@ -4,12 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Task Management</title>
+    <title>Task Manager</title>
     <meta name="author" content="wasilolly">
-    <meta name="description" content="task-management">
+    <meta name="description" content="task-manager">
 
     <!-- Tailwind -->
-    <link href="https://unpkg.com/tailwindcss/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
 
     <style>
         @import url('https://fonts.googleapis.com/css?family=Karla:400,700&display=swap');
@@ -50,7 +50,8 @@
 </head>
 
 <body class="bg-gray-100 font-family-karla w-auto flex">
-
+    
+    {{-- side dashboard --}}
     <aside class="relative bg-blue-600 w-54 shadow-xl">
         <div class="p-6">
             <a href="{{ route('task.index') }}"
@@ -61,17 +62,19 @@
             </button>
         </div>
         <nav class="text-white text-base font-semibold pt-3">
-            <a href="{{ route('admin.dashboard') }}" class="flex items-center  text-white py-4 pl-6 nav-item">
-                <i class="fas fa-tachometer-alt mr-3"></i>
-                Admin Dashboard
-            </a>
+            
             @auth
+                @if(Auth::user()->admin)
+                   <a href="{{ route('admin.dashboard') }}" class="flex items-center  text-white py-4 pl-6 nav-item">
+                    <i class="fas fa-tachometer-alt mr-3"></i>
+                    Admin Dashboard
+                    </a> 
+                @endif
                 <a href="/user/{{ auth()->id() }}/dashboard" class="flex items-center text-white py-4 pl-6 nav-item">
                     <i class="fas fa-user mr-3"></i>
                     {{ ucwords(auth()->user()->name) }}'s Dashboard
                 </a>
             @endauth
-
             <a href="{{ route('task.index') }}"
                 class="flex items-center text-white hover:opacity-100 py-4 pl-6 nav-item">
                 <i class="fas fa-tasks mr-3"></i>
@@ -81,7 +84,7 @@
     </aside>
 
     <div class="w-full flex flex-col h-screen overflow-y-hidden">
-        <!-- Desktop Header -->
+        {{-- Account Details --}}
         <header class="w-full items-center bg-white py-2 px-6 sm:flex">
             <div class=" row w-1/2"> </div>
             @auth
@@ -92,7 +95,10 @@
                     <button x-show="isOpen" @click="isOpen = false"
                         class="h-full w-full fixed inset-0 cursor-default"></button>
                     <div x-show="isOpen" class="absolute w-25 bg-white rounded-lg shadow-lg py-2 mt-6">
-                        <a href="#" class="block px-4 py-2 account-link hover:text-white">Account</a>
+                        <a href="/user/{{ auth()->id() }}/dashboard" class="block px-4 py-2 account-link hover:text-white">
+                            Account
+                        </a>
+
                         <form action="/logout" method="post" class="block px-4 py-2 account-link hover:text-white">
                             @csrf
                             <button>Logout</button>
@@ -110,14 +116,15 @@
 
         @if (session()->has('success'))
             <div x-data="{ show:true}" x-show="show" x-init="setTimeout(() => show = false, 4000)"
-                class=" fixed bg-blue-500 text-white py-2 px-4 w-1/4 rounded-xl bottom-3 text-sm">
+                class=" fixed top left bg-blue-500 text-white py-2 px-4 w-1/4 rounded-xl text-sm">
                 <p>{{ session('success') }}</p>
             </div>
         @endif
 
+
+        {{-- body --}}
         <div class="w-full overflow-x-hidden border-t flex flex-col">
             <main class="w-auto flex-grow p-6">
-
                 {{ $slot }}
             </main>
 
@@ -136,5 +143,4 @@
         integrity="sha256-KzZiKy0DWYsnwMF+X1DvQngQ2/FxF7MF3Ff72XcpuPs=" crossorigin="anonymous"></script>
 
 </body>
-
 </html>
